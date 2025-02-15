@@ -11,15 +11,21 @@
 
 ## 使用方法
 
-1. 运行程序：
+1. 安装依赖：
 
-```bash
-python spider.py
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-2. 输入要爬取的年份（如：2024）
+2. 运行程序：
 
-3. 程序会自动：
+   ```bash
+   python spider.py
+   ```
+
+3. 输入要爬取的年份（如：2024）
+
+4. 程序会自动：
    - 创建目录结构
    - 获取论文列表
    - 下载论文和幻灯片
@@ -44,7 +50,7 @@ paper_list.csv 包含以下列：
 
 ## 依赖说明
 
-```
+```txt
 requests>=2.31.0
 beautifulsoup4>=4.12.2
 pandas>=2.1.0

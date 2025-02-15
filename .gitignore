@@ -33,11 +33,5 @@ ndss*/
 .DS_Store
 Thumbs.db
 
+# Virtual environment
 .venv/
-*.pdf
-*.mp4
-*.pptx
-*.ppt
-*.pptx
-*.ppt
-*.csv

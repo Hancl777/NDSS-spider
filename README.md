@@ -13,14 +13,21 @@ A web crawler for downloading papers from the Network and Distributed System Sec
 
 ## Usage
 
-1. Run the program:
+1. Install dependencies
 
-```bash
-python spider.py
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-2. Enter the year to crawl (e.g., 2024)
-3. The program will automatically:
+2. Run the program:
+
+   ```bash
+   python spider.py
+   ```
+
+3. Input the year you want to crawl (e.g., 2024)
+
+4. The program will automatically:
    - Create necessary directories
    - Fetch paper list
    - Download papers and slides
@@ -45,13 +52,12 @@ paper_list.csv contains the following columns:
 
 ## Dependencies
 
-```
+```txt
 requests >= 2.31.0
 beautifulsoup4 >= 4.12.2
 pandas >= 2.1.0
 lxml >= 4.9.3
 ```
-
 
 ## Notes
 

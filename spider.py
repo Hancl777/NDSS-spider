@@ -1,13 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-import time
 import pandas as pd
-import re
-from lxml import html
 
 class NDSSSpider:
     def __init__(self, year):
+        self.year = year
         self.base_url = f"https://www.ndss-symposium.org/ndss{year}/accepted-papers/"
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -120,6 +118,7 @@ class NDSSSpider:
 
     def get_paper_details(self, paper):
         """Get paper PDF and slides from details page"""
+        paper_title = paper['title']  # 在函数开始时获取标题，确保异常处理可以访问
         try:
             response = requests.get(paper['details_url'], headers=self.headers)
             soup = BeautifulSoup(response.text, 'html.parser')
@@ -130,8 +129,6 @@ class NDSSSpider:
                 paper_title = title_elem.text.strip()
                 # Update the paper title in the dictionary with the full title
                 paper['title'] = paper_title
-            else:
-                paper_title = paper['title']
             
             # Find paper buttons div
             paper_buttons = soup.find('div', class_='paper-buttons')
@@ -173,7 +170,7 @@ class NDSSSpider:
 
     def save_paper_list_to_csv(self, papers):
         """Save paper list to CSV file"""
-        csv_path = os.path.join(self.output_dir, "ndss2024", "paper_list.csv")
+        csv_path = os.path.join(self.output_dir, f"ndss{self.year}", "paper_list.csv")
         
         # Create directory if it doesn't exist
         os.makedirs(os.path.dirname(csv_path), exist_ok=True)
@@ -182,7 +179,6 @@ class NDSSSpider:
             df = pd.DataFrame(papers)
             # Add index column starting from 1
             df.insert(0, 'index', range(1, len(df) + 1))
-            
             # Define CSV columns order
             columns = ['index', 'title', 'authors', 'cycle', 'details_url']
             # Reorder columns if they exist in the DataFrame
@@ -228,6 +224,11 @@ def extract_paper_titles(html_content):
     return titles
 
 if __name__ == "__main__":
-    year = input("Please input the year you want to crawl: ")
+    while True:
+        year = input("Please input the year you want to crawl (e.g., 2024): ").strip()
+        if year.isdigit() and len(year) == 4:
+            break
+        print("Please input a valid four-digit year")
+    
     spider = NDSSSpider(year)
     spider.run()
